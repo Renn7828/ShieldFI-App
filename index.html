@@ -199,9 +199,10 @@
   }
   .hero-sub {
     font-family:'Space Mono', monospace;
-    font-size:11px;
-    line-height:1.8;
-    color:var(--muted);
+    font-size:12px;
+    line-height:1.75;
+    color:var(--text);
+    opacity:.85;
     margin-top:14px;
   }
 
@@ -249,10 +250,10 @@
   }
   .section-title {
     font-family:'Syne', sans-serif;
-    font-size:22px;
+    font-size:28px;
     font-weight:800;
     letter-spacing:-.02em;
-    line-height:1;
+    line-height:1.05;
   }
   .section-title em {
     font-style:normal;
@@ -573,9 +574,10 @@
   }
   .gloss-def {
     font-family:'Space Mono', monospace;
-    font-size:11px;
-    color:var(--muted);
-    line-height:1.7;
+    font-size:12px;
+    color:var(--text);
+    opacity:.85;
+    line-height:1.75;
     margin-top:6px;
   }
 
@@ -606,9 +608,10 @@
   .sf-name .g { color:var(--gold); }
   .sf-desc {
     font-family:'Space Mono', monospace;
-    font-size:11px;
-    color:var(--muted);
-    line-height:1.7;
+    font-size:12px;
+    color:var(--text);
+    opacity:.85;
+    line-height:1.75;
     margin-top:12px;
   }
   .sf-ca {
@@ -900,10 +903,11 @@
   }
   .rc-sub {
     font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    line-height: 1.7;
-    color: var(--muted);
-    margin-bottom: 18px;
+    font-size: 12px;
+    line-height: 1.75;
+    color: var(--text);
+    opacity: .85;
+    margin-bottom: 20px;
   }
   .rc-form { display:flex; flex-direction:column; gap:16px; }
   .rc-field { display:flex; flex-direction:column; gap:8px; }
@@ -1104,7 +1108,7 @@
           </div>
           <div style="font-family:'Space Mono',monospace;font-size:16px;color:var(--muted);opacity:.5;">→</div>
         </div>
-        <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);line-height:1.7;margin-top:8px;">The original bridged ZEC on Solana. Launched Oct 2025 via NEAR Intents + OmniBridge.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:var(--text);opacity:.85;line-height:1.75;margin-top:8px;">The original bridged ZEC on Solana. Launched Oct 2025 via NEAR Intents + OmniBridge.</div>
       </a>
 
       <a class="wcard" href="https://www.zenrocklabs.io" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
@@ -1117,7 +1121,7 @@
           </div>
           <div style="font-family:'Space Mono',monospace;font-size:16px;color:var(--muted);opacity:.5;">→</div>
         </div>
-        <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);line-height:1.7;margin-top:8px;">Bridged ZEC secured by Zenrock's validator network for cross-chain custody.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:var(--text);opacity:.85;line-height:1.75;margin-top:8px;">Bridged ZEC secured by Zenrock's validator network for cross-chain custody.</div>
       </a>
 
       <a class="wcard" href="https://encifher.io" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
@@ -1130,7 +1134,7 @@
           </div>
           <div style="font-family:'Space Mono',monospace;font-size:16px;color:var(--muted);opacity:.5;">→</div>
         </div>
-        <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);line-height:1.7;margin-top:8px;">Re-wrapped with fully homomorphic encryption for private swaps on Jupiter.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:var(--text);opacity:.85;line-height:1.75;margin-top:8px;">Re-wrapped with fully homomorphic encryption for private swaps on Jupiter.</div>
       </a>
     </div>
 
@@ -1306,14 +1310,9 @@
 
     <div class="rc-section">
       <div class="rc-card">
-        <div class="rc-sub">Choose your identity. Pick your class, enter your handle, and generate a unique badge for your profile pic.</div>
+        <div class="rc-sub">Display your identity with pride. Press Generate Badge multiple times on each class to view a variety of different colour palettes.</div>
 
         <div class="rc-form">
-          <div class="rc-field">
-            <label class="rc-label" for="rcHandle">Handle</label>
-            <input type="text" id="rcHandle" class="rc-input" placeholder="@yourname" maxlength="16" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" />
-          </div>
-
           <div class="rc-field">
             <label class="rc-label">Class</label>
             <div class="rc-class-grid" id="rcClassGrid">
@@ -1630,11 +1629,9 @@ const rcCtx = rcCanvas.getContext('2d');
 const rcClassGrid = document.getElementById('rcClassGrid');
 const rcGenerate = document.getElementById('rcGenerate');
 const rcDownload = document.getElementById('rcDownload');
-const rcHandleInput = document.getElementById('rcHandle');
 
 let rcClass = 'shielder';
 let rcSeed = Math.random();
-
 // Warhol palettes — gold skin, gender-neutral, bold pop-art combos
 // bg, skin, shadow, hair, lips, accent, outline
 const RC_CLASSES = {
@@ -1992,7 +1989,6 @@ function drawHalftone(ctx, S, color, density, dotSize, opacity) {
 function drawBadge() {
   const S = 512, C = S/2;
   const cls = RC_CLASSES[rcClass];
-  const handle = rcHandleInput.value.trim() || '@anon';
   const mainColor = cls.color;
   const rgb = hexRgb(mainColor);
   const s = rcSeed * 10000;
@@ -2014,49 +2010,60 @@ function drawBadge() {
   drawCrest(rcCtx, C, C + 8, 1.6, pal, rcClass);
 
   // === OUTER RING — BLACK, THICK ===
-  // Outer black band
   rcCtx.strokeStyle = '#000000';
-  rcCtx.lineWidth = 28;
+  rcCtx.lineWidth = 30;
   rcCtx.beginPath(); rcCtx.arc(C, C, 242, 0, Math.PI * 2); rcCtx.stroke();
 
-  // Inner edge of the band — thin gold accent
-  rcCtx.strokeStyle = pal.bg;
-  rcCtx.globalAlpha = 0.4;
+  // Outer gold ring edge
+  rcCtx.strokeStyle = '#F5D778';
+  rcCtx.globalAlpha = 0.9;
   rcCtx.lineWidth = 1.5;
-  rcCtx.beginPath(); rcCtx.arc(C, C, 229, 0, Math.PI * 2); rcCtx.stroke();
+  rcCtx.beginPath(); rcCtx.arc(C, C, 257, 0, Math.PI * 2); rcCtx.stroke();
   rcCtx.globalAlpha = 1;
 
-  // === HANDLE TEXT — TOP ARC — LARGE, WELL SPACED ===
-  const handleText = handle.toUpperCase();
+  // Inner gold ring edge — warm glow
+  rcCtx.strokeStyle = '#D4A843';
+  rcCtx.globalAlpha = 0.85;
+  rcCtx.lineWidth = 2;
+  rcCtx.beginPath(); rcCtx.arc(C, C, 228, 0, Math.PI * 2); rcCtx.stroke();
+  rcCtx.globalAlpha = 1;
+
+  // === TOP ARC — SHIELDFI BRAND ===
+  const brandText = '✦  SHIELDFI  ✦';
   rcCtx.save();
-  rcCtx.font = '800 20px "Syne", sans-serif';
+  rcCtx.font = '800 16px "Syne", sans-serif';
   rcCtx.textAlign = 'center';
   rcCtx.textBaseline = 'middle';
 
   const textRadius = 242;
-  // Dynamic spacing — more space between chars
-  const charAngle = 0.065;
-  const totalAngle = handleText.length * charAngle;
+  const charAngle = 0.082;
+  const totalAngle = brandText.length * charAngle;
   const startAngle = -Math.PI / 2 - totalAngle / 2;
 
-  // Text shadow (dark, offset)
-  for (let i = 0; i < handleText.length; i++) {
+  // Deep shadow pass
+  for (let i = 0; i < brandText.length; i++) {
     const a = startAngle + i * charAngle + charAngle / 2;
     rcCtx.save();
-    rcCtx.translate(C + Math.cos(a) * textRadius + 1.5, C + Math.sin(a) * textRadius + 1.5);
+    rcCtx.translate(C + Math.cos(a) * textRadius + 2, C + Math.sin(a) * textRadius + 2);
     rcCtx.rotate(a + Math.PI / 2);
-    rcCtx.fillStyle = 'rgba(0,0,0,0.7)';
-    rcCtx.fillText(handleText[i], 0, 0);
+    rcCtx.fillStyle = 'rgba(0,0,0,0.85)';
+    rcCtx.fillText(brandText[i], 0, 0);
     rcCtx.restore();
   }
-  // Text fill — bright white
-  for (let i = 0; i < handleText.length; i++) {
+
+  // Gold shimmer gradient
+  for (let i = 0; i < brandText.length; i++) {
     const a = startAngle + i * charAngle + charAngle / 2;
     rcCtx.save();
     rcCtx.translate(C + Math.cos(a) * textRadius, C + Math.sin(a) * textRadius);
     rcCtx.rotate(a + Math.PI / 2);
-    rcCtx.fillStyle = '#ffffff';
-    rcCtx.fillText(handleText[i], 0, 0);
+    const grd = rcCtx.createLinearGradient(0, -12, 0, 12);
+    grd.addColorStop(0, '#FFF5CC');
+    grd.addColorStop(0.35, '#F5D778');
+    grd.addColorStop(0.65, '#D4A843');
+    grd.addColorStop(1, '#A0720A');
+    rcCtx.fillStyle = grd;
+    rcCtx.fillText(brandText[i], 0, 0);
     rcCtx.restore();
   }
   rcCtx.restore();
@@ -2064,31 +2071,39 @@ function drawBadge() {
   // === CLASS TITLE — BOTTOM ARC ===
   const bottomText = '\u25C6  ' + cls.title + '  \u25C6';
   rcCtx.save();
-  rcCtx.font = '800 16px "Syne", sans-serif';
+  rcCtx.font = '800 17px "Syne", sans-serif';
   rcCtx.textAlign = 'center';
   rcCtx.textBaseline = 'middle';
   const btRadius = 242;
-  const btCharAngle = 0.058;
+  const btCharAngle = 0.060;
   const btTotal = bottomText.length * btCharAngle;
   const btStart = Math.PI / 2 + btTotal / 2;
 
-  // Shadow
+  // Deep shadow
   for (let i = 0; i < bottomText.length; i++) {
     const a = btStart - i * btCharAngle - btCharAngle / 2;
     rcCtx.save();
-    rcCtx.translate(C + Math.cos(a) * btRadius + 1.5, C + Math.sin(a) * btRadius + 1.5);
+    rcCtx.translate(C + Math.cos(a) * btRadius + 2, C + Math.sin(a) * btRadius + 2);
     rcCtx.rotate(a - Math.PI / 2);
-    rcCtx.fillStyle = 'rgba(0,0,0,0.7)';
+    rcCtx.fillStyle = 'rgba(0,0,0,0.85)';
     rcCtx.fillText(bottomText[i], 0, 0);
     rcCtx.restore();
   }
-  // Fill
+
+  // Class color gradient — uses the class accent color
+  const rgb2 = hexRgb(mainColor);
   for (let i = 0; i < bottomText.length; i++) {
     const a = btStart - i * btCharAngle - btCharAngle / 2;
+    const tx = C + Math.cos(a) * btRadius;
+    const ty = C + Math.sin(a) * btRadius;
     rcCtx.save();
-    rcCtx.translate(C + Math.cos(a) * btRadius, C + Math.sin(a) * btRadius);
+    rcCtx.translate(tx, ty);
     rcCtx.rotate(a - Math.PI / 2);
-    rcCtx.fillStyle = '#ffffff';
+    const grd2 = rcCtx.createLinearGradient(0, -10, 0, 10);
+    grd2.addColorStop(0, `rgba(${Math.min(255,rgb2.r+80)},${Math.min(255,rgb2.g+80)},${Math.min(255,rgb2.b+80)},1)`);
+    grd2.addColorStop(0.5, mainColor);
+    grd2.addColorStop(1, `rgba(${Math.max(0,rgb2.r-60)},${Math.max(0,rgb2.g-60)},${Math.max(0,rgb2.b-60)},1)`);
+    rcCtx.fillStyle = grd2;
     rcCtx.fillText(bottomText[i], 0, 0);
     rcCtx.restore();
   }
@@ -2112,7 +2127,7 @@ rcClassGrid.addEventListener('click', e => {
   rcClassGrid.querySelectorAll('.rc-class-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   rcClass = btn.dataset.class;
-  rcSeed = Math.random();
+  // Do NOT reroll seed on class switch — palette only changes on Generate
   drawBadge();
 });
 
@@ -2127,8 +2142,6 @@ rcDownload.addEventListener('click', () => {
   link.href = rcCanvas.toDataURL('image/png');
   link.click();
 });
-
-rcHandleInput.addEventListener('input', drawBadge);
 
 drawBadge();
 })();
